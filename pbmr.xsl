@@ -4,6 +4,8 @@
   <xsl:template match="/">
     <html>
     <body>
+
+    <H3>Policy Evaluation</H3>
     <table border="1">
       <tr bgcolor="#CCCCCC">
       <td align="center"><strong>ID</strong></td>
@@ -12,7 +14,7 @@
       <td align="center"><strong>Result</strong></td>
     </tr>
 
-    <xsl:for-each select="//DMF:EvaluationDetail">
+    <xsl:for-each select="//m:model[1]//*/DMF:EvaluationDetail">
 
       <tr bgcolor="#F5F5F5">
       
@@ -47,6 +49,52 @@
     </xsl:for-each>
 
     </table>
+
+    <H3>Policy Applying</H3>
+    <table border="1">
+      <tr bgcolor="#CCCCCC">
+      <td align="center"><strong>ID</strong></td>
+      <td align="center"><strong>Policy</strong></td>
+      <td align="center"><strong>Target</strong></td>
+      <td align="center"><strong>Result</strong></td>
+    </tr>
+
+    <xsl:for-each select="//m:model[last()]//*/DMF:EvaluationDetail">
+
+      <tr bgcolor="#F5F5F5">
+      
+      <td>
+      <xsl:call-template name="value-of-template">
+        <xsl:with-param name="select" select="DMF:ID"/>
+      </xsl:call-template>
+      </td>
+      
+      <td>
+      <xsl:call-template name="value-of-template">
+        <xsl:with-param name="select" select="DMF:Parent/sfc:Reference/sml:Uri"/>
+      </xsl:call-template>
+      </td>
+
+      <td>
+      <xsl:call-template name="value-of-template">
+        <xsl:with-param name="select" select="DMF:TargetQueryExpression"/>
+      </xsl:call-template>
+      </td>
+      
+      <td>
+      <xsl:call-template name="value-of-template">
+        <xsl:with-param name="select" select="DMF:Result"/>
+      </xsl:call-template>
+      </td>
+      
+      <xsl:value-of select="'&#10;'"/>
+
+      </tr>
+
+    </xsl:for-each>
+
+    </table>
+    
     </body>
     </html>
 
